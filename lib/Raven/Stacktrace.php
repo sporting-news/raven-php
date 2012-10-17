@@ -201,4 +201,34 @@ class Raven_Stacktrace
         fclose($fh);
         return $frame;
     }
+
+    /**
+     * Logs error and exception messages as per error_log config directive
+     *
+     * Example use case:
+     *
+     * You are using raven-php to override PHP's default error handler early
+     * in your app, to catch every imaginable error and send it to Sentry.
+     *
+     * Since otherwise uncaught exceptions are now being caught, they won't
+     * be written to error_log. This lets you do both - send to Sentry and
+     * log via error_log, if you so desire.
+     *
+     * @param string $message
+     * @param string $filename
+     * @param int    $line
+     * @param mixed  $exc
+     */
+    public static function logError($message, $filename, $line, $exc=null)
+    {
+        if ($exc) {
+            $strace = $exc->getTraceAsString();
+            $pieces = explode("\n", $strace);
+            $strace = join("\n", $pieces);
+            error_log("$message \n$filename, $line \n$strace");
+        } else {
+            error_log("$message \n$filename, $line");
+        }
+    }
+
 }
