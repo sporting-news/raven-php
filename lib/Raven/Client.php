@@ -67,7 +67,7 @@ class Raven_Client
     {
         return array(
             'Raven_SanitizeDataProcessor',
-        );        
+        );
     }
 
 

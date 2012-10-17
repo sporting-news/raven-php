@@ -11,7 +11,7 @@ class Raven_Processor
         $this->client = $client;
     }
 
-    /** 
+    /**
      * Process and sanitize data, modifying the existing value if nescesary.
      */
     public function process(&$data)
