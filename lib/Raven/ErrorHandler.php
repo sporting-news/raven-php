@@ -29,6 +29,10 @@ class Raven_ErrorHandler
     function handleException($e, $isError = false) {
         $e->event_id = $this->client->getIdent($this->client->captureException($e));
 
+        // sn write to log
+        error_log($e->getMessage());
+        error_log($e->getTraceAsString());
+
         if (!$isError && $this->call_existing_exception_handler && $this->old_exception_handler) {
             call_user_func($this->old_exception_handler, $e);
         }
